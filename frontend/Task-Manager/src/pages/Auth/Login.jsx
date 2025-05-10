@@ -2,7 +2,7 @@ import React from 'react';
 
 const Login =() => {
   return (
-    <div className='text-6xl font-bold'>App</div>
+    <div className='text-6xl font-bold'><h1>Login</h1></div>
   )
 }
 
