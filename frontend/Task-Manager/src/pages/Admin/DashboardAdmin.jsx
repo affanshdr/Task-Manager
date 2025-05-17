@@ -9,12 +9,7 @@ const DashboardAdmin =() => {
 
   const {user} = useContext(UserContext);
 
-  return (
-    <DashboardLayout>DashboardAdmin
-
-      {JSON.stringify(user)}
-    </DashboardLayout>
-  )
-}
+  return <DashboardLayout activeMenu="Dashboard">Dashboard</DashboardLayout>;
+};
 
 export default DashboardAdmin;
