@@ -1,5 +1,5 @@
-import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import React, {useContext} from "react";
+import { BrowserRouter as Router, Routes, Route, Outlet, Navigate } from "react-router-dom";
 
 // Private Route
 import Login from "./pages/Auth/Login";
@@ -16,10 +16,12 @@ import CreateTasks from "./pages/Admin/CreateTasks";
 import Managetasks from "./pages/Admin/ManageTasks";
 
 import PrivateRoute from "./routes/PrivateRoute";
+import UserProvider, { UserContext } from "./context/userContext";
 
 
 const App = () => {
   return (
+    <UserProvider>
     <div className="text-6xl font-bold">
       <Router>
         <Routes>
@@ -40,10 +42,28 @@ const App = () => {
             <Route path="/user/dashboard" element={<DashboardUser />} />
             <Route path="/user/mytasks" element={<MyTasks />} />
           </Route>
+
+          {/* Default Route */}
+
+          <Route path="/" element={<Root />} />
+
         </Routes>
       </Router>
     </div>
+    </UserProvider>
   );
 };
 
 export default App;
+
+const Root = () => {
+  const { user,loading} = useContext(UserContext);
+
+  if(loading) return <Outlet />
+
+  if (!user) {
+    return <Navigate to ="/login" />;
+  }
+
+  return user.role === "admin" ? <Navigate to="/admin/dashboard" /> : <Navigate to ="user/dashboard" />;
+};
