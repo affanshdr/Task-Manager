@@ -10,8 +10,11 @@ import moment from "moment";
 import { addThousandsSeparator } from "../../utils/helper";
 import InfoCard from "../../components/Cards/InfoCard";
 import { LuArrowRight } from "react-icons/lu";
+import TaskListTable from "../../components/TaskListTable";
+import CustomPieChart from "../../components/Charts/CustomPieChart";
+import CustomBarChart from "../../components/Charts/CustomBarChart";
 
-
+const COLORS = ["#8D51ff", "#00B8D8", "#7BCE00"];
 
 const DashboardAdmin = () => {
   useUserAuth();
@@ -24,12 +27,39 @@ const DashboardAdmin = () => {
   const [pieChartData, setPieChartData] = useState([]);
   const [barChartData, setBarChartData] = useState([]);
 
+   // siapin data chart
+   const prepareChartData = (data) => {
+    const taskDistribution = data?.taskDistribution || null;
+    const taskPriorityLevels = data?.taskPriorityLevels || null;
+
+    const taskDistributionData = [
+      { status: "pending", count: taskDistribution?.pending || 0 },
+      { status: "completed", count: taskDistribution?.completed || 0 },
+      { status: "overdue", count: taskDistribution?.overdue || 0 },
+    ];
+
+    setPieChartData(taskDistributionData);
+
+    const PriorityLevelsData = [
+        { priority: "low", count: taskPriorityLevels?.low || 0 },
+        { priority: "medium", count: taskPriorityLevels?.medium || 0 },
+        { priority: "high", count: taskPriorityLevels?.high || 0 },
+    ];
+  
+    setBarChartData(PriorityLevelsData);
+  };
+
   const getDashboardData = async () => {
     try {
-      const response = await axiosInstance.get(API_PATHS.TASKS.GET_DASHBOARD_DATA);
-      console.log("Dashboard data:", response.data);
+      const response = await axiosInstance.get(
+        API_PATHS.TASKS.GET_DASHBOARD_DATA
+      );
+    if (response.data){
       setDashboardData(response.data);
-    } catch (error) {
+      prepareChartData(response.data?.charts || null);
+    }
+  }
+    catch (error) {
       console.error("Error details:", {
         status: error.response?.status,
         data: error.response?.data,
@@ -37,6 +67,10 @@ const DashboardAdmin = () => {
       });
     }
   };
+
+  const onSeeMore = () => {
+    navigate("/admin/tasks");
+  }
 
   useEffect(() => {
     if (user && user.role === "admin") {
@@ -59,9 +93,8 @@ const DashboardAdmin = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols2 md:grid-cols-4 gap-3 md:gap-6 mt-5">
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-3 md:gap-6 mt-5">
           <InfoCard label="Total Tasks" value={addThousandsSeparator(dashboardData?.charts?.taskDistribution?.All || 0)} color="bg-primary" />
-
 
           <InfoCard label="Completed Tasks" value={addThousandsSeparator(dashboardData?.statistics?.completedTasks || 0)} color="bg-green-500" />
 
@@ -75,18 +108,50 @@ const DashboardAdmin = () => {
 
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-4 md:my-6 ">
+        
+        <div>
+          <div className="card">
+            <div className="flex items-center justify-between">
+            <h5 className="font-medium">Task Distribution</h5>
+           </div>
+
+            <CustomPieChart
+              data={pieChartData}
+              colors={COLORS}
+            />
+        </div>
+      </div>
+
+              <div>
+          <div className="card">
+            <div className="flex items-center justify-between">
+            <h5 className="font-medium">Task Priority Levels</h5>
+           </div>
+
+            <CustomBarChart
+              data={barChartData}
+            />
+        </div>
+      </div>
+
         <div className="md:col-span-2">
           <div className="card">
             <div className="flex items-center justify-between">
               <h5 className="text-lg"> Recent Tasks</h5>
 
-              <button className="card-btn text-xl" onClick={onSeeMore}>
-                see All <LuArrowRight className="text-base" />
+                <button className="card-btn text-xl" onClick={onSeeMore}>
+                See All <LuArrowRight className="text-base" />
               </button>
             </div>
+
+            <TaskListTable tableData={dashboardData?.recentTasks || []}/>
           </div>
         </div>
+
+            
       </div>
+
+          
     </DashboardLayout>
   );
 };

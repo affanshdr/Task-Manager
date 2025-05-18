@@ -28,6 +28,16 @@ const tasks = [
         createdBy: "663b16a8e0a5f2df41a2c6d4",
         assignedTo: [],
         todoCheckList: [{ text: "Checklist C", completed: true }]
+    },
+    {
+        title: "Tugas Hari ini",
+        description: "Ini tugas ketiga cuy",
+        priority: "high",
+        status: "completed",
+        dueData: new Date("2025-06-18"),
+        createdBy: "6828aea2853cfec7d7906160",
+        assignedTo: ["682857ff4e1470692e7cbd19"],
+        todoCheckList: [{ text: "Checklist C", completed: true }]
     }
 ];
 
