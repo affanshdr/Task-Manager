@@ -67,7 +67,7 @@ const exportTasksReport = async (req, res) => {
 const exportUsersReport = async (req, res) => {
     try {
         const users = await User.find().select("name email _id").lean();
-        const userTasks = await Task.find().popiulate (
+        const userTasks = await Task.find().populate( // Fixed popiulate → populate
             "assignedTo",
             "name email _id"
         );
@@ -91,7 +91,7 @@ const exportUsersReport = async (req, res) => {
                         userTaskMap[assignedUser._id].taskCount += 1;
                         if(task.status === "pending") {
                             userTaskMap[assignedUser._id].pendingTasks += 1;
-                        } else if (task.status === "In Progress") {
+                        } else if (task.status === "in Progress") {
                             userTaskMap[assignedUser._id].inProgressTasks += 1;
                         } else if (task.status === "completed") {
                             userTaskMap[assignedUser._id].completedTasks += 1;

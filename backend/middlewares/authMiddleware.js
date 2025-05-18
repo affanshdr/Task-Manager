@@ -8,7 +8,7 @@ const protect = async (req, res, next) => {
 
         if (token && token.startsWith("Bearer")) {
             token = token.split(" ")[1];   // extract token
-            const decoded = jwt.verify(token, process.env.JWT_SECRET);
+            const decoded = JWT.verify(token, process.env.JWT_SECRET);
             req.user = await User.findById(decoded.userId).select("-password");
             next();
         } else {

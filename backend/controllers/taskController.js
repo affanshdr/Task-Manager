@@ -137,7 +137,7 @@ const updateTask = async (req, res) => {
         }
 
         task.title= req.body.title || task.title;
-        task,description = req.body.description || task.description;
+        task.description = req.body.description || task.description;
         task.priority = req.body.priority || task.priority;
         task.dueDate = req.body.dueDate || task.dueDate;
         task.assignedTo = req.body.assignedTo || task.assignedTo;
@@ -193,7 +193,7 @@ const updateTaskStatus = async (req, res) => {
         task.status = req.body.status;
         
         if (task.status === "completed") {
-            task.todoCheckList.forEach((item) => (items.completed = true));
+            task.todoCheckList.forEach((item) => (item.completed = true));
             task.progress = 100;
         }
 
@@ -228,15 +228,15 @@ const updateTaskChecklist = async (req, res) => {
         const completedCount = task.todoCheckList.filter(
             (item) => item.completed
         ).length;
-        const totalItems = task.todoChecklist.length;
+        const totalItems = task.todoCheckList.length;
         task.progress = 
             totalItems > 0 ? Math.round((completedCount/totalItems)*100) :0;
 
         // Auto-Mark task as completed if all items are checked
         if (task.progress == 100) {
-            task.status = "Completed";
+            task.status = "completed";
         } else if (task.progress >0) {
-            task.status = "In progress"
+            task.status = "InProgress"
         } else {
             task.status = "Pending";
         }
@@ -259,8 +259,8 @@ const getDashboardData = async (req, res) => {
 
         // Fetch Statistics 
         const totalTasks = await Task.countDocuments();
-        const pendingTasks = await Task.countDocuments({ status: "Pending" });
-        const completedTasks = await Task.countDocuments({ status: "Completed" });
+        const pendingTasks = await Task.countDocuments({ status: "pending" });
+        const completedTasks = await Task.countDocuments({ status: "completed" });
         const overdueTasks = await Task.countDocuments({ 
             status: {$ne: "Completed"},
          dueDate: { $lt: new Date() } 
@@ -346,7 +346,7 @@ const getUserDashboardData = async (req, res) => {
         });
 
         // Task distrobution by status
-        const taskStatuses = ["Pending", "In progress", "Completed"];
+        const taskStatuses = ["pending", "inProgress", "completed"];
         const taskDistributionRaw = await Task.aggregate([
             {
                 $match: { assignedTo: userId }
@@ -394,7 +394,7 @@ const getUserDashboardData = async (req, res) => {
         const recentTasks = await Task.find({ assignedTo: userId })
         .sort({ createdAt: -1 })
         .limit(10)
-        .select("tittle status priority duedate createdAt");
+        .select("title status priority duedate createdAt");
         
         res.status(200).json({
             statistics: {
