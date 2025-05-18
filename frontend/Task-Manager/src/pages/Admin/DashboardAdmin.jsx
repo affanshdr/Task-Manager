@@ -9,6 +9,9 @@ import { API_PATHS } from "../../utils/apiPaths";
 import moment from "moment";
 import { addThousandsSeparator } from "../../utils/helper";
 import InfoCard from "../../components/Cards/InfoCard";
+import { LuArrowRight } from "react-icons/lu";
+
+
 
 const DashboardAdmin = () => {
   useUserAuth();
@@ -30,17 +33,14 @@ const DashboardAdmin = () => {
       console.error("Error details:", {
         status: error.response?.status,
         data: error.response?.data,
-        message: error.message
+        message: error.message,
       });
     }
   };
-  
 
   useEffect(() => {
-    if (user && user.role === 'admin') {
-
-      
-      console.log("Admin")
+    if (user && user.role === "admin") {
+      console.log("Admin");
       getDashboardData();
     } else {
       // Kalau bukan admin, bisa pakai GET_USER_DASHBOARD_DATA
@@ -48,26 +48,47 @@ const DashboardAdmin = () => {
       console.log("Bukan admin, tidak fetch dashboard");
     }
   }, [user]);
-  
 
-  return <DashboardLayout activeMenu="Dashboard">
-    <div className="card my-5">
-      <div>
-        <div className="col-span-3">
-          <h2 className="text-xl md:text-2xl">Good morning! {user?.name}</h2>
-          <p className="text-xs md:text-[13px] text-gray-400 mt-1.5">{moment().format("dddd, MMMM D, YYYY")}</p>
+  return (
+    <DashboardLayout activeMenu="Dashboard">
+      <div className="card my-5">
+        <div>
+          <div className="col-span-3">
+            <h2 className="text-xl md:text-2xl">Good morning! {user?.name}</h2>
+            <p className="text-xs md:text-[13px] text-gray-400 mt-1.5">{moment().format("dddd, MMMM D, YYYY")}</p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 sm:grid-cols2 md:grid-cols-4 gap-3 md:gap-6 mt-5">
+          <InfoCard label="Total Tasks" value={addThousandsSeparator(dashboardData?.charts?.taskDistribution?.All || 0)} color="bg-primary" />
+
+
+          <InfoCard label="Completed Tasks" value={addThousandsSeparator(dashboardData?.statistics?.completedTasks || 0)} color="bg-green-500" />
+
+          <InfoCard label="Overdue Tasks" value={addThousandsSeparator(dashboardData?.statistics?.overdueTasks || 0)} color="bg-red-500" />
+
+          <InfoCard label="Pending Tasks" value={addThousandsSeparator(dashboardData?.statistics?.pendingTasks || 0)} color="bg-yellow-500" />
+
+  
         </div>
       </div>
 
-      <div className="grid grid-cols-2 sm:grid-cols2 md:grid-cols-4 gap-3 md:gap-6 mt-5">
-        <InfoCard
-          label= "Total Tasks"
-          value = {addThousandsSeparator(dashboardData?.charts?.taskDistrinution?.All || 0)}
-          color= "bg-primary"        
-        />
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-4 md:my-6 ">
+        <div className="md:col-span-2">
+          <div className="card">
+            <div className="flex items-center justify-between">
+              <h5 className="text-lg"> Recent Tasks</h5>
+
+              <button className="card-btn text-xl" onClick={onSeeMore}>
+                see All <LuArrowRight className="text-base" />
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-  </DashboardLayout>;
+    </DashboardLayout>
+  );
 };
 
 export default DashboardAdmin;
