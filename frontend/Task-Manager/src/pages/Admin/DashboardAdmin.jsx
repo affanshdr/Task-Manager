@@ -6,6 +6,9 @@ import DashboardLayout from "../../components/layouts/DashboardLayout";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../utils/axiosInstance";
 import { API_PATHS } from "../../utils/apiPaths";
+import moment from "moment";
+import { addThousandsSeparator } from "../../utils/helper";
+import InfoCard from "../../components/Cards/InfoCard";
 
 const DashboardAdmin = () => {
   useUserAuth();
@@ -47,7 +50,23 @@ const DashboardAdmin = () => {
   }, [user]);
   
 
-  return <DashboardLayout activeMenu="Dashboard">Dashboard
+  return <DashboardLayout activeMenu="Dashboard">
+    <div className="card my-5">
+      <div>
+        <div className="col-span-3">
+          <h2 className="text-xl md:text-2xl">Good morning! {user?.name}</h2>
+          <p className="text-xs md:text-[13px] text-gray-400 mt-1.5">{moment().format("dddd, MMMM D, YYYY")}</p>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-2 sm:grid-cols2 md:grid-cols-4 gap-3 md:gap-6 mt-5">
+        <InfoCard
+          label= "Total Tasks"
+          value = {addThousandsSeparator(dashboardData?.charts?.taskDistrinution?.All || 0)}
+          color= "bg-primary"        
+        />
+      </div>
+    </div>
   </DashboardLayout>;
 };
 
