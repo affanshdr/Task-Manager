@@ -105,7 +105,7 @@ const DashboardAdmin = () => {
         <div>
           <div className="card">
             <div className="flex items-center justify-between">
-              <h5 className="font-medium">Task Distribution</h5>
+              <h5 className="font-medium text-2xl">Task Distribution</h5>
             </div>
 
             <CustomPieChart data={pieChartData} colors={COLORS} />
@@ -115,7 +115,7 @@ const DashboardAdmin = () => {
         <div>
           <div className="card">
             <div className="flex items-center justify-between">
-              <h5 className="font-medium">Task Priority Levels</h5>
+              <h5 className="font-medium text-2xl">Task Priority Levels</h5>
             </div>
 
             <CustomBarChart data={barChartData} />
