@@ -20,21 +20,23 @@ const DashboardAdmin = () => {
 
   const getDashboardData = async () => {
     try {
-      const token = localStorage.getItem("token");
-      alert("Token yang digunakan:", token);
-  
       const response = await axiosInstance.get(API_PATHS.TASKS.GET_DASHBOARD_DATA);
-      alert("Dashboard Data:", response.data);
-  
+      console.log("Dashboard data:", response.data);
       setDashboardData(response.data);
     } catch (error) {
-      alert("Error Fetching Users:", error.response?.status, error.response?.data || error.message);
+      console.error("Error details:", {
+        status: error.response?.status,
+        data: error.response?.data,
+        message: error.message
+      });
     }
   };
   
 
   useEffect(() => {
     if (user && user.role === 'admin') {
+
+      
       console.log("Admin")
       getDashboardData();
     } else {
