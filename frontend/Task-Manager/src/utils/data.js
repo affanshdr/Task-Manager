@@ -61,3 +61,11 @@ export const SIDE_MENU_USER_DATA = [
         path: "logout",
     },
 ];
+
+
+export const PRIORITY_DATA = [
+    { label : "Low", value : "Low" },
+    { label : "Medium", value : "Medium" },
+    { label : "High", value : "High" },
+];
+
