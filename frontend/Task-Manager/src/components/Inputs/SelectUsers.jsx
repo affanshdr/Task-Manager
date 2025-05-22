@@ -8,7 +8,7 @@ import AvatarGroup from "../../components/AvatarGroup";
 const SelectUsers = ({selectedUsers, setSelectedUsers}) => {
 
     const [allUsers, setAllUsers] = useState([]);
-    const [isModalOpen, setIsModalOpen] = useState(true);
+    const [isModalOpen, setIsModalOpen] = useState(false); // Diubah dari true ke false
     const [tempSelectedUsers, setTempSelectedUsers] = useState([]);
 
     const getAllUsers = async () => {
@@ -35,18 +35,19 @@ const SelectUsers = ({selectedUsers, setSelectedUsers}) => {
         setIsModalOpen(false);
     }
 
-    const selectedUserAvatars = allUsers.filter((user)=> selectedUsers.includes(user.id)).map((user) => user.profileImageUrl);
+    // Memperbaiki cara mendapatkan avatar dari user yang dipilih
+    const selectedUserAvatars = allUsers
+        .filter((user) => selectedUsers.includes(user._id)) // Menggunakan _id, bukan id
+        .map((user) => user.profileImageUrl);
 
     useEffect(() => {
         getAllUsers();
     }, []);
 
     useEffect(() => {
-        if (selectedUsers.length === 0) {
-            setTempSelectedUsers([]);
-        }
-        return () => {}
-    },[selectedUsers]);
+        // Saat selectedUsers berubah, update tempSelectedUsers
+        setTempSelectedUsers(selectedUsers);
+    }, [selectedUsers]);
 
     return <div className="space-y-4 mt-2">
         {selectedUserAvatars.length === 0 && (

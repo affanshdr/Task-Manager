@@ -12,6 +12,9 @@ import { LuTrash2 } from "react-icons/lu";
 import { CgAttachment } from "react-icons/cg";
 import SelectDropdown from "../../components/Inputs/SelectDropdown";
 import SelectUsers from "../../components/Inputs/SelectUsers"; 
+import TodoListInput from "../../components/Inputs/TodoListInput";
+import AddAttachmentsInput from "../../components/Inputs/AddAttachmentsInput";
+
 
 const CreateTasks = () => {
   const location = useLocation();
@@ -54,11 +57,71 @@ const CreateTasks = () => {
   };
 
   // Create Task
-  const createTask = async () => {};
+  const createTask = async () => {
+    setLoading(true);
+
+    try {
+      const todolist = taskData.todoCheckList?.map((item) => ({
+        text: item,
+        completed: false,
+      }));
+
+      const response = await axiosInstance.post(API_PATHS.TASKS.CREATE_TASK, {
+        ...taskData,
+        dueDate: new Date(taskData.dueDate).toISOString(),
+        todoCheckList: todolist,
+      });
+
+      toast.success("Task Created success");
+      clearData();
+
+    } catch (error) {
+      console.error("Error Creating Task",error);
+      setLoading(false);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   // Update Task
   const updateTask = async () => {};
-  const handleSubmit = async () => {};
+  const handleSubmit = async () => {
+    setError(null);
+
+    // Input Validation
+    if (!taskData.title.trim()) {
+      setError("Title is required");
+      return;
+    }
+
+    if (!taskData.description.trim()) {
+      setError("Description is required");
+      return;
+    }
+
+    if (!taskData.dueDate) {
+      setError("Due date is required");
+      return;
+    }
+
+    if (taskData.assignedTo?.length === 0) {
+      setError("Task not assigned to any member");
+      return;
+    }
+
+    if (taskData.todoCheckList?.length === 0) {
+      setError("Add atleast one todo task");
+      return;
+    }
+
+    if (taskId) {
+      updateTask();
+    } 
+
+    createTask();
+    
+
+  };
 
   // get Task info by ID
   const getTaskDetailsByID = async () => {};
@@ -117,8 +180,42 @@ const CreateTasks = () => {
                  onChange={(selectedUsers) => handleValueChange("assignedTo", selectedUsers)}
                  />
               </div>
-              
             </div>
+
+            <div className="mt-3"> 
+              <label className="text-xs font-medium text-slate-600"> ToDO Checklist</label>
+
+              <TodoListInput 
+               todoList = {taskData?.todoCheckList}
+               setTodoList = {(value) => 
+                handleValueChange("todoCheckList", value)
+               }
+              />
+            </div>
+
+            <div className="mt-3">
+              <label className=" text-xs font-medium text-slate-600">Add Attachments</label>
+
+              <AddAttachmentsInput 
+              attachments={taskData?.attachments}
+              setAttachments = {(value) => 
+                handleValueChange("attachments", value)
+              } 
+              />
+            </div>
+
+              {error && (
+                <p className="text-xs text-red-500 mt-5">{error}</p>
+              )}
+
+              <div className="flex justify-end mt-7">
+                <button className="add-btn"  onClick={handleSubmit}
+                disabled={loading}>
+
+                  {taskId ? "Update Task" : "Create Task"}
+                </button>
+              </div>
+
           </div>
         </div>
       </div>
