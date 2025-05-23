@@ -1,5 +1,14 @@
 # SiKeuchik - Manajemen Administrasi Kependudukan di  kantor keuchik
 
+## IMPORTANT 
+akun admin cuma 1 :
+- email    : affan@test.com
+- password : 123
+
+sample Warga ( Nanti bisa ditambah manual oleh Admin )
+- no Nik : 1234567891234567
+- no KK  : 1234567891234567
+
 **Anggota** :
 
 1. Affan Suhendar (2308107010003)
@@ -11,6 +20,8 @@
 4. Raysha Tazkiya Rahim (2308107010057)
 
 5. Shania Rizka Anindia (2308107010067)
+
+
 
 ## Fitur Utama
 ✅ Pengajuan surat online (Domisili, Usaha, Belum Menikah, Tidak Mampu)  
