@@ -40,8 +40,8 @@ sample Warga ( Nanti bisa ditambah manual oleh Admin )
 
 1. **Clone repository**:
    ```bash
-   git clone https://github.com/affanshdr/SIMAK.git
-   cd simak
+   git clone https://github.com/affanshdr/uas-crud-SiKeuchik.git
+   cd SiKeuchik
 2. **Install dependencies**:
    ```bash
    npm install
