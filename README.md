@@ -1,20 +1,16 @@
-# SIMAK - Sistem Informasi Manajemen Administrasi Kependudukan
-
-**Kelompok : 4**
+# SiKeuchik - Manajemen Administrasi Kependudukan di  kantor keuchik
 
 **Anggota** :
 
-1. Aulia Vika Rahman (2208107010001)
+1. Affan Suhendar (2308107010003)
 
-2. Nitiya Rihadatul ‘Aisy (2108107010003)
+2. Muhammad Aidil Fitrah (2308107010035)
 
-3. Affan Suhendar (2308107010003)
+3. Zalvia Inasya Zulna (2308107010041)
 
-4. Adinda Muarriva (2308107010001)
+4. Raysha Tazkiya Rahim (2308107010057)
 
-![image](https://github.com/user-attachments/assets/c06f8814-2f0d-4c7c-8986-bb2bcf9ee265)
-
-Sistem Informasi untuk mempermudah pengurusan surat keterangan di tingkat desa/kelurahan dengan database SQLite.
+5. Shania Rizka Anindia (2308107010067)
 
 ## Fitur Utama
 ✅ Pengajuan surat online (Domisili, Usaha, Belum Menikah, Tidak Mampu)  
@@ -25,7 +21,7 @@ Sistem Informasi untuk mempermudah pengurusan surat keterangan di tingkat desa/k
 ## Teknologi
 - **Frontend**: Next.js 14 + Tailwind CSS
 - **Backend**: Next.js API Routes
-- **Database**: SQLite (file-based, no server required)
+- **Database**: Postgre ( supabase )
 - **ORM**: Prisma
 - **Authentication**: NextAuth.js
 
