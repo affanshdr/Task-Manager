@@ -15,7 +15,7 @@ export default function Navbar() {
     <nav className="sticky top-0 z-50 flex justify-between items-center px-6 py-6 shadow-md bg-yellow-500 font-poppins">
       <div className="flex text-3xl font-semibold ml-10 hover:scale-105 transition-transform">
         {/*<Image src="/Asset/Logo.png" width={50} height={50} alt="Logo" />*/}
-        <Link href="/">SIMAK</Link>
+        <Link href="/">SiKeuchik</Link>
       </div>
       
       <div className="flex space-x-8 font-medium mr-10">

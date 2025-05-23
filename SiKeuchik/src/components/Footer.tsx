@@ -54,7 +54,7 @@ export default function Footer() {
           <h4 className="font-bold mb-3 text-gray-800">Kontak</h4>
           <div className="space-y-2">
             <p>Telp: +62853 2335 5412</p>
-            <p>Email: simak@gmail.com</p>
+            <p>Email: SiKeuchik@gmail.com</p>
             <div className="flex gap-3 mt-3 justify-center md:justify-start">
               <a 
                 href="https://facebook.com" 

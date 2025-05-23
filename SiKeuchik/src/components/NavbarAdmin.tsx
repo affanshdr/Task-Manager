@@ -39,7 +39,7 @@ const NavbarAdmin = ({ currentPath }: { currentPath: string }) => {
           transition={{ delay: 0.2 }}
           className="text-3xl font-bold text-[#FF8C42]"
         >
-          SIMAK
+          SiKeuchik
         </motion.h1>
       </motion.div>
 
